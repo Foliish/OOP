@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace oop.Properties
+namespace MyPaint.Properties
 {
 
 
