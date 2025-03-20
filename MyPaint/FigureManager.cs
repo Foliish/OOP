@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MyPaint.Serializes;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -20,20 +22,36 @@ namespace MyPaint
     public class FigureManager
     {
         public const int figuresH = 20;
-        private IFigure[] figures = new IFigure[figuresH];
-        public int figInd { get; set; } =0;
         public ChoosedFigure choosedFig { get; private set; } = new ChoosedFigure();
+        private IFigure choosedFigType;
         public int figCount { get; private set; } = 0;
+
+        public int FigInd { 
+            get { 
+                return figInd; 
+            } 
+            set {
+                ConstructorInfo constructor = figTypes[value].GetConstructor(new Type[0]);
+                choosedFigType = (IFigure)constructor.Invoke(null);
+                choosedFigType.ToIconVersion();
+                figInd = value; 
+            } 
+        }
+        private int figInd;
+
+        private IFigure[] figures = new IFigure[figuresH];
         private Type[] figTypes;
         private SolidBrush brush = new SolidBrush(Color.White);
         private Pen pen = new Pen(Color.Black);
         private Stack<IFigure> figureCache = new Stack<IFigure>();
+        private Serializer serializer = new Serializer();
         public FigureManager() 
         {
             choosedFig.Figure = null;
             choosedFig.registred = false;
             Assembly assembly = Assembly.GetExecutingAssembly();
             figTypes = assembly.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IFigure))).ToArray();
+            FigInd = 0;
         }
         public void RegFigure(IFigure figure)
         {
@@ -47,7 +65,7 @@ namespace MyPaint
             for (int i = 0; i< pars.Length; i++)
                 parTypes[i] = pars[i].GetType();
 
-            ConstructorInfo constructor = figTypes[figInd].GetConstructor(parTypes);
+            ConstructorInfo constructor = figTypes[FigInd].GetConstructor(parTypes);
             if (constructor != null)
             {
                 IFigure figure = (IFigure)constructor.Invoke(pars);
@@ -60,6 +78,9 @@ namespace MyPaint
                     choosedFig.registred=false;
 
                 choosedFig.Figure = figure;
+                choosedFig.Figure.bColor = choosedFigType.bColor;
+                choosedFig.Figure.lColor = choosedFigType.lColor;
+                choosedFig.Figure.lWidth = choosedFigType.lWidth;
                 return figure;
             }
             else
@@ -89,17 +110,14 @@ namespace MyPaint
             for (int i = 0;i < figures.Length; i++) 
                 if (figures[i] != null)
                     figures[i].Paint(o,e,brush,pen);
+            if (choosedFig.Figure != null)
+                choosedFig.Figure.Paint(o,e,brush,pen);
         }
         public void GetPoint(Point p)
         {
             if (choosedFig.Figure != null)
             {
                 choosedFig.Figure.AddPoint(p);
-                if (choosedFig.Figure.ConfirmFigure() && !choosedFig.registred)
-                {
-                    RegFigure(choosedFig.Figure);
-                    choosedFig.registred = true;
-                }
             }
         }
         public IFigure ChooseFigure(Point point)
@@ -138,7 +156,7 @@ namespace MyPaint
         }
         public void NextFigure()
         {
-            figInd = (figInd+1) % figures.Length;
+            FigInd = (FigInd+1) % figTypes.Length;
         }
         public bool RedoFigure()
         {
@@ -148,6 +166,36 @@ namespace MyPaint
                 return true;
             }
             return false;
+        }
+        public void SetNewDrawingParams(Color backColor,Color lineColor,int lineWidth)
+        {
+            if (choosedFigType != null)
+            {
+                choosedFigType.lWidth = lineWidth;
+                choosedFigType.bColor = backColor;
+                choosedFigType.lColor = lineColor;
+            }
+        }
+        public void DrawIcon(object o, BufferedGraphics e)
+        {
+            choosedFigType.Paint(o, e, brush, pen);
+        }
+        public void Serialize(string filePath)
+        {
+            serializer.JSONSerialize(filePath,figures);
+        }
+        public void DeSerialize(string filePath)
+        {
+            figures = (IFigure[])serializer.JSONDeserialize(filePath);
+        }
+        public void ConfirmPoint()
+        {
+            choosedFig.Figure.ConfirmPoint();
+            if (choosedFig.Figure.ConfirmFigure() && !choosedFig.registred)
+            {
+                RegFigure(choosedFig.Figure);
+                choosedFig.registred = true;
+            }
         }
     }
 }
