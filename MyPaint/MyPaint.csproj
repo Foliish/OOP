@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FigureManagers\ChoosedFigure.cs" />
     <Compile Include="FigureManagers\FigureCache.cs" />
     <Compile Include="FigureManagers\FigureManager.cs" />
     <Compile Include="Figures\FEllipse.cs" />

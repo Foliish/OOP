@@ -59,7 +59,7 @@ namespace MyPaint
         }
         private void UpdateIco()
         {
-            figureManager.SetNewDrawingParams(clrDialogBack.Color, clrDialogLine.Color, Int32.Parse(edLWidth.Value.ToString()));
+            figureManager.SetNewDrawingParams(clrDialogBack.Color, clrDialogLine.Color, (int)edLWidth.Value);
             panIcon.Invalidate();
         }
         private void panIcon_Click(object sender, EventArgs e)

@@ -8,11 +8,6 @@ using System.Reflection;
 
 namespace MyPaint
 {
-    public class ChoosedFigure
-    {
-        public IFigure Figure;
-        public bool registred;
-    }
     public class FigureManager
     {
         public const int figuresH = 20;
