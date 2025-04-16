@@ -1,16 +1,10 @@
-﻿using MyPaint.Serializes;
-using Newtonsoft.Json;
+﻿using MyPaint.FigureManagers;
+using MyPaint.Serializes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace MyPaint
 {
@@ -39,11 +33,12 @@ namespace MyPaint
         }
         private int figInd;
 
+        public FigureCache cache = new FigureCache();
+
         private IFigure[] figures = new IFigure[figuresH];
         private Type[] figTypes;
         private SolidBrush brush = new SolidBrush(Color.White);
         private Pen pen = new Pen(Color.Black);
-        private Stack<IFigure> figureCache = new Stack<IFigure>();
         private Serializer serializer = new Serializer();
         public FigureManager() 
         {
@@ -72,6 +67,7 @@ namespace MyPaint
                 if (figure.ConfirmFigure())
                 {
                     RegFigure(figure);
+                    cache.Clear();
                     choosedFig.registred = true;
                 }
                 else
@@ -96,7 +92,7 @@ namespace MyPaint
                 figures[figCount-- - 1] = null;
                 choosedFig.Figure = null;
 
-                figureCache.Push(res);
+                cache.CacheFigure(res);
                 return res;
             }
             else
@@ -116,9 +112,7 @@ namespace MyPaint
         public void GetPoint(Point p)
         {
             if (choosedFig.Figure != null)
-            {
                 choosedFig.Figure.AddPoint(p);
-            }
         }
         public IFigure ChooseFigure(Point point)
         {
@@ -160,9 +154,9 @@ namespace MyPaint
         }
         public bool RedoFigure()
         {
-            if (figureCache.Count > 0)
+            if (!cache.IsEmpty())
             {
-                RegFigure(figureCache.Pop());
+                RegFigure(cache.GetFigure());
                 return true;
             }
             return false;
@@ -194,8 +188,15 @@ namespace MyPaint
             if (choosedFig.Figure.ConfirmFigure() && !choosedFig.registred)
             {
                 RegFigure(choosedFig.Figure);
+                cache.Clear();
                 choosedFig.registred = true;
             }
+        }
+        public void ReturnAllCache()
+        {
+            ICollection<IFigure> unCached = cache.GetAll();
+            foreach (IFigure f in unCached)
+                RegFigure(f);
         }
     }
 }

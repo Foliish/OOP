@@ -108,17 +108,21 @@ namespace MyPaint
         private void panPain_MouseDown(object sender, MouseEventArgs e)
         {
             Point point = new Point(e.X, e.Y);
-            if (figureManager.choosedFig.Figure != null)
-            {
-                figureManager.GetPoint(point);
-                figureManager.ConfirmPoint();
-            }
-            else
-            {
-                figureManager.NewFigure(new object[0]);
-                figureManager.GetPoint(point);
-                figureManager.ConfirmPoint();
-            }
+            if (e.Button == MouseButtons.Left)
+                if (figureManager.choosedFig.Figure != null)
+                {
+                    figureManager.GetPoint(point);
+                    figureManager.ConfirmPoint();
+                }
+                else
+                {
+                    figureManager.NewFigure(new object[0]);
+                    figureManager.GetPoint(point);
+                    figureManager.ConfirmPoint();
+                }
+            else if (e.Button == MouseButtons.Middle)
+                figureManager.ReturnAllCache();
+
             panPain.Invalidate();
         }
 
