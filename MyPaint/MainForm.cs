@@ -136,5 +136,11 @@ namespace MyPaint
                 panPain.Invalidate();
             }
         }
+
+        private void btnPlug_Click(object sender, EventArgs e)
+        {
+            if (openDialog.ShowDialog() == DialogResult.OK) 
+                figureManager.LoetPlugin(openDialog.FileName);
+        }
     }
 }

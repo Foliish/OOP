@@ -4,12 +4,13 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using InterfaceLib;
 
 namespace MyPaint.Figures
 {
     public class FEllipse : IFigure
     {
-        public Point[] points { get; }
+        public Point[] points { get; set; }
         public Color bColor { get; set; }
         public Color lColor { get; set; }
         public int lWidth { get; set; }

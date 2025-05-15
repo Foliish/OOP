@@ -41,6 +41,7 @@
             this.openDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveDialog = new System.Windows.Forms.SaveFileDialog();
             this.clrDialogBack = new System.Windows.Forms.ColorDialog();
+            this.btnPlug = new System.Windows.Forms.Button();
             this.panPain.SuspendLayout();
             this.panMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.edLWidth)).BeginInit();
@@ -62,6 +63,7 @@
             // 
             // panMenu
             // 
+            this.panMenu.Controls.Add(this.btnPlug);
             this.panMenu.Controls.Add(this.edLWidth);
             this.panMenu.Controls.Add(this.btnLoad);
             this.panMenu.Controls.Add(this.btnSave);
@@ -71,7 +73,7 @@
             this.panMenu.Controls.Add(this.label1);
             this.panMenu.Location = new System.Drawing.Point(0, 0);
             this.panMenu.Name = "panMenu";
-            this.panMenu.Size = new System.Drawing.Size(479, 79);
+            this.panMenu.Size = new System.Drawing.Size(470, 79);
             this.panMenu.TabIndex = 0;
             // 
             // edLWidth
@@ -159,6 +161,16 @@
             // 
             this.clrDialogBack.Color = System.Drawing.Color.Yellow;
             // 
+            // btnPlug
+            // 
+            this.btnPlug.Location = new System.Drawing.Point(203, 33);
+            this.btnPlug.Name = "btnPlug";
+            this.btnPlug.Size = new System.Drawing.Size(139, 23);
+            this.btnPlug.TabIndex = 7;
+            this.btnPlug.Text = "Добаить прикол";
+            this.btnPlug.UseVisualStyleBackColor = true;
+            this.btnPlug.Click += new System.EventHandler(this.btnPlug_Click);
+            // 
             // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -191,6 +203,7 @@
         private System.Windows.Forms.SaveFileDialog saveDialog;
         private System.Windows.Forms.NumericUpDown edLWidth;
         private System.Windows.Forms.ColorDialog clrDialogBack;
+        private System.Windows.Forms.Button btnPlug;
     }
 }
 

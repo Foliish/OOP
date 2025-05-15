@@ -3,8 +3,10 @@ using MyPaint.Serializes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using InterfaceLib;
 
 namespace MyPaint
 {
@@ -14,7 +16,7 @@ namespace MyPaint
         public ChoosedFigure choosedFig { get; private set; } = new ChoosedFigure();
         private IFigure choosedFigType;
         public int figCount { get; private set; } = 0;
-
+        public string pth = "F:\\OOPRepos\\OOP\\MyPaint"; 
         public int FigInd { 
             get { 
                 return figInd; 
@@ -39,9 +41,19 @@ namespace MyPaint
         {
             choosedFig.Figure = null;
             choosedFig.registred = false;
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            figTypes = assembly.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IFigure))).ToArray();
+            figTypes = PluginMeneger.GetInternelPlugins().Concat(PluginMeneger.GetExternelPlugins(pth+"\\Plugins")).ToArray();                  
+            
             FigInd = 0;
+        }
+        public void LoetPlugin(string s)
+        {
+            string ppth = pth + "\\Plugins";
+            try
+            {
+                File.Copy(s, ppth, true);
+            }
+            catch { }
+            figTypes = PluginMeneger.GetInternelPlugins().Concat(PluginMeneger.GetExternelPlugins(pth+"\\Plugins")).ToArray();
         }
         public void RegFigure(IFigure figure)
         {

@@ -6,18 +6,20 @@ using System.Text;
 using System.Threading.Tasks;
 using InterfaceLib;
 
-namespace MyPaint.Figures
+
+namespace FKeyBor
 {
-    public class FPolygon : IFigure
+    public class Ffjvhjv : IFigure 
     {
         public Point[] points { get; set; }
         public Color bColor { get; set; }
         public Color lColor { get; set; }
         public int lWidth { get; set; }
         private int iPoints = 0;
-        public FPolygon()
+        private static int highPoints = 4;
+        public Ffjvhjv()
         {
-            points = new Point[2];
+            points = new Point[highPoints];
         }
         public bool ConfirmFigure()
         {
@@ -29,13 +31,23 @@ namespace MyPaint.Figures
         }
         public void AddPoint(Point point)
         {
-            if (iPoints == points.Length)
+            if (iPoints + 1 < points.Length)
+                for (int i = iPoints; i < highPoints; i++)
+                    points[i] = point;
+            else
             {
-                Point[] pointst = new Point[iPoints + 1];
-                Array.Copy(points, pointst, iPoints);
-                points = pointst;
+                double A = (points[0].Y - points[1].Y) / (points[0].X - points[1].X);
+                double C = points[2].Y - A * points[2].X;
+                double B = -1;
+
+                double x0 = point.X;
+                double y0 = point.Y;
+                double denominator = A * A + B * B;
+
+                points[3].X = (int)((B * B * x0 - A * B * y0 - A * C) / denominator);
+                points[3].Y = (int)((A * A * y0 - A * B * x0 - B * C) / denominator);
+
             }
-            points[iPoints] = point;
         }
         public void Paint(object sender, BufferedGraphics e, SolidBrush brush, Pen pen)
         {
@@ -47,13 +59,16 @@ namespace MyPaint.Figures
         }
         public void ToIconVersion()
         {
-            points = new Point[3];
-            points[0].X = lWidth + 1;
+            points[0].X = lWidth + 7;
+            points[1].X = 50 - lWidth - 7;
             points[0].Y = lWidth + 1;
-            points[1].X = 50 - lWidth - 1;
-            points[1].Y = 50 - lWidth - 1;
+            points[1].Y = lWidth + 1;
+
+            points[3].X = lWidth + 1;
             points[2].X = 50 - lWidth - 1;
-            points[2].Y = lWidth + 1;
+            points[3].Y = 50-lWidth - 1;
+            points[2].Y = 50-lWidth - 1;
         }
     }
 }
+
