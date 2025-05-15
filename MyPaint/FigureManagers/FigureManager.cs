@@ -45,16 +45,6 @@ namespace MyPaint
             
             FigInd = 0;
         }
-        public void LoetPlugin(string s)
-        {
-            string ppth = pth + "\\Plugins";
-            try
-            {
-                File.Copy(s, ppth, true);
-            }
-            catch { }
-            figTypes = PluginMeneger.GetInternelPlugins().Concat(PluginMeneger.GetExternelPlugins(pth+"\\Plugins")).ToArray();
-        }
         public void RegFigure(IFigure figure)
         {
             if (figCount>=figures.Length)
@@ -204,6 +194,16 @@ namespace MyPaint
             ICollection<IFigure> unCached = cache.GetAll();
             foreach (IFigure f in unCached)
                 RegFigure(f);
+        }
+        public void NewPlug(string s)
+        {
+            try
+            {
+                File.Copy(s,pth+"\\Plugins\\"+Path.GetFileName(s));
+                figTypes = PluginMeneger.GetInternelPlugins().Concat(PluginMeneger.GetExternelPlugins(pth + "\\Plugins")).ToArray();
+                figInd = 0;
+            }
+            catch { }
         }
     }
 }

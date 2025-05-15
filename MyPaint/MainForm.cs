@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -136,11 +137,12 @@ namespace MyPaint
                 panPain.Invalidate();
             }
         }
-
-        private void btnPlug_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            if (openDialog.ShowDialog() == DialogResult.OK) 
-                figureManager.LoetPlugin(openDialog.FileName);
+            if (openDialog.ShowDialog() == DialogResult.OK)
+            {
+                figureManager.NewPlug(openDialog.FileName);
+            }
         }
     }
 }

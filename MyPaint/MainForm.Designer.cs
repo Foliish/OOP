@@ -41,7 +41,7 @@
             this.openDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveDialog = new System.Windows.Forms.SaveFileDialog();
             this.clrDialogBack = new System.Windows.Forms.ColorDialog();
-            this.btnPlug = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.panPain.SuspendLayout();
             this.panMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.edLWidth)).BeginInit();
@@ -63,7 +63,7 @@
             // 
             // panMenu
             // 
-            this.panMenu.Controls.Add(this.btnPlug);
+            this.panMenu.Controls.Add(this.button1);
             this.panMenu.Controls.Add(this.edLWidth);
             this.panMenu.Controls.Add(this.btnLoad);
             this.panMenu.Controls.Add(this.btnSave);
@@ -161,15 +161,15 @@
             // 
             this.clrDialogBack.Color = System.Drawing.Color.Yellow;
             // 
-            // btnPlug
+            // button1
             // 
-            this.btnPlug.Location = new System.Drawing.Point(203, 33);
-            this.btnPlug.Name = "btnPlug";
-            this.btnPlug.Size = new System.Drawing.Size(139, 23);
-            this.btnPlug.TabIndex = 7;
-            this.btnPlug.Text = "Добаить прикол";
-            this.btnPlug.UseVisualStyleBackColor = true;
-            this.btnPlug.Click += new System.EventHandler(this.btnPlug_Click);
+            this.button1.Location = new System.Drawing.Point(203, 33);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(138, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Добаить прикол";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form
             // 
@@ -203,7 +203,7 @@
         private System.Windows.Forms.SaveFileDialog saveDialog;
         private System.Windows.Forms.NumericUpDown edLWidth;
         private System.Windows.Forms.ColorDialog clrDialogBack;
-        private System.Windows.Forms.Button btnPlug;
+        private System.Windows.Forms.Button button1;
     }
 }
 
